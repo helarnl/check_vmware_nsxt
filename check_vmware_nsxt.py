@@ -247,9 +247,10 @@ class Alarms(CheckResult):
 
     def _is_excluded(self, alarm):
         # to exclude via --exclude
-        identifier = "%s %s %s %s" % (
+        identifier = "%s %s %s %s %s" % (
             alarm['severity'],
             alarm['node_display_name'],
+            alarm['alarm_source'],
             alarm['feature_display_name'],
             alarm['event_type_display_name'])
         for exclude in self.excludes:
@@ -271,10 +272,11 @@ class Alarms(CheckResult):
             else:
                 states[severity] = 1
 
-            self.output.append("[%s] (%s) (%s) %s/%s - %s" % (
+            self.output.append("[%s] (%s) (%s) (%s) %s/%s - %s" % (
                 severity,
                 time_iso(alarm['_create_time']),
                 alarm['node_display_name'],
+                alarm['alarm_source'][0],
                 alarm['feature_display_name'],
                 alarm['event_type_display_name'],
                 alarm['summary'],
